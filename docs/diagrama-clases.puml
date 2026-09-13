@@ -1,0 +1,184 @@
+@startuml Lumina Libreria — Diagrama de Clases
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+title Lumina Librería — Diagrama de Clases (POO + Listas como BD)
+
+package "model" {
+  abstract class Persona {
+    # id : String
+    # nombre : String
+    # email : String
+    # telefono : String
+    + getTipo() : String
+    + toRow() : String[]
+  }
+  class Cliente {
+    - puntosFidelidad : int
+    - totalCompras : int
+    + getNivel() : NivelCliente
+    + getDescuentoNivel() : double
+    + agregarCompra(valor : double) : void
+  }
+  enum NivelCliente {
+    BRONCE
+    PLATA
+    ORO
+    DIAMANTE
+    + getDescuento() : double
+    + porPuntos(p) : NivelCliente
+  }
+  abstract class Producto {
+    # id : String
+    # nombre : String
+    # categoria : Categoria
+    # precioCompra : double
+    # precioVenta : double
+    # stock : int
+    # stockMinimo : int
+    + calcularMargen() : double
+    + necesitaReposicion() : boolean
+    + vender(cant : int) : boolean
+    + reponer(cant : int) : void
+    + calcularPrecioFinal() : double
+    + getDetalleEspecifico() : String
+    + toRow() : String[]
+  }
+  class Libro {
+    - autor : String
+    - editorial : String
+    - isbn : String
+    - numPaginas : int
+  }
+  class UtilEscolar {
+    - marca : String
+    - tipoUtil : String
+  }
+  class Revista {
+    - edicion : String
+    - periodicidad : String
+  }
+  enum Categoria {
+    LIBRO_FICCION
+    LIBRO_INFANTIL
+    LIBRO_ACADEMICO
+    UTILES
+    ARTE
+    REVISTA
+  }
+  class DetalleVenta {
+    - cantidad : int
+    - precioUnitario : double
+    + getSubtotal() : double
+    + getGanancia() : double
+  }
+  class Venta {
+    - id : String
+    - fecha : LocalDateTime
+    - tasaDescuento : double
+    + agregarDetalle(prod, cant) : void
+    + getSubtotal() : double
+    + getIva() : double
+    + getTotalFinal() : double
+    + getGananciaTotal() : double
+  }
+}
+
+package "repository" {
+  class Database {
+    - instancia : Database
+    - productos : List<Producto>
+    - clientes : List<Cliente>
+    - ventas : List<Venta>
+    + getInstancia() : Database
+    + buscarProductoPorId(id) : Optional
+    + buscarClientePorId(id) : Optional
+    - sembrarProductos() : void
+    - sembrarClientes() : void
+    - sembrarVentasHistoricas() : void
+    note right: Singleton + Listas\n hardcodeadas (BD temporal)
+  }
+}
+
+package "service" {
+  class ProductoService {
+    + buscar(query) : List<Producto>
+    + porCategoria(cat) : List
+    + stockBajo() : List
+    + masRentables(top) : List
+  }
+  class VentaService {
+    + calcularDescuento(c, sub, unds) : double
+    + crearVenta(cliente, carrito) : Venta
+  }
+  class ItemCarrito {
+    + producto : Producto
+    + cantidad : int
+  }
+  class RecomendacionService {
+    + recomendar(base, max) : List
+    + topVentas(top) : List
+    + ventasPorProducto() : Map
+  }
+  class ReporteService {
+    + ingresosTotales() : double
+    + gananciaTotal() : double
+    + ticketPromedio() : double
+    + mejorCliente() : Optional
+    + ventasPorCategoria() : Map
+  }
+}
+
+package "ui" {
+  class ConsoleUI {
+    + banner() : void
+    + tabla(headers, filas) : void
+    + tarjeta(titulo, lineas) : void
+    + exito(msg) : void
+    + error(msg) : void
+  }
+  class AppMenu {
+    - sc : Scanner
+    + iniciar() : void
+    - vender() : void
+    - elegirCliente() : Cliente
+    - crearProductoInteractivo() : Producto
+    - agregarClienteInteractivo() : Cliente
+    - resolverProducto(entrada, lista) : Optional
+    - mostrarProductosNumerados(lista) : void
+    - dashboard() : void
+    - imprimirFactura(v) : void
+  }
+  class Main {
+    + main(args) : void
+  }
+}
+
+Persona <|-- Cliente
+Producto <|-- Libro
+Producto <|-- UtilEscolar
+Producto <|-- Revista
+Producto "1" *-- "1" Categoria : clasificado en >
+Cliente "1" *-- "1" NivelCliente : tiene >
+Venta o-- Cliente : atiende a >
+Venta *-- DetalleVenta : contiene >
+DetalleVenta o-- Producto : refiere a >
+Database o-- Producto : almacena >
+Database o-- Cliente : almacena >
+Database o-- Venta : almacena >
+ProductoService ..> Database : usa
+VentaService ..> Database : usa
+RecomendacionService ..> Database : usa
+ReporteService ..> Database : usa
+VentaService *-- ItemCarrito : usa
+ReporteService ..> RecomendacionService : usa
+AppMenu ..> ProductoService : usa
+AppMenu ..> VentaService : usa
+AppMenu ..> RecomendacionService : usa
+AppMenu ..> ReporteService : usa
+AppMenu ..> ConsoleUI : usa
+Main ..> Database : inicializa
+Main ..> AppMenu : lanza
+
+@enduml

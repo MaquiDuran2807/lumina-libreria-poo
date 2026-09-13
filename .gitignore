@@ -1,0 +1,20 @@
+# Java / compilados
+out/
+fuentes.txt
+*.class
+*.jar
+
+# Instaladores y binarios pesados (no subir a GitHub)
+*.exe
+*.msi
+*.zip
+
+# Word temporales de Office
+~$*.docx
+
+# IDEs y SO
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
