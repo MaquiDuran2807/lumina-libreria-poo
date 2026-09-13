@@ -70,14 +70,17 @@ compilar.bat
 run.bat
 ```
 
-Manual (cualquier SO):
+Manual (cualquier SO, desde la carpeta del proyecto):
 
 ```bat
-mkdir out
-Get-ChildItem -Recurse -Filter *.java src | ForEach-Object { $_.FullName } > fuentes.txt
+cd /d RUTA\DEL\PROYECTO
+cmd /V:ON /c "(for /R src %f in (*.java) do @(set P=%f & echo !P:\=/%!)) > fuentes.txt"
 javac -encoding UTF8 -d out @fuentes.txt
 java -cp out com.libreriasmart.Main
 ```
+
+> Si `javac` no se reconoce, instala el JDK 17+ desde <https://adoptium.net>.
+> Los `.bat` ya detectan solos el JDK en sus rutas habituales.
 
 ---
 
