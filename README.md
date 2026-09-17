@@ -54,6 +54,7 @@ Con **0** creas un cliente o producto nuevo sin salir del flujo.
    [7] ⚠  Alertas de stock bajo
    [8] ➕  Agregar producto
    [9] 📥  Reponer stock
+   [10] 📝  Generar reporte de ventas (CSV)
 ```
 
 ---

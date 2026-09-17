@@ -148,7 +148,7 @@ Ingresos = Σ `venta.totalFinal`; ganancia = Σ (`precio - costo`) − dto; tick
 
 `ui/ConsoleUI.java`: colores ANSI (CYAN/MAGENTA/VERDE/AMARILLO), banner ASCII, `titulo()`, `tarjeta()`, `tabla()` Unicode (`┌┬┐├┼┤└┴┘`), `menu()` numerado, `pausar()`.
 
-`ui/AppMenu.java`: bucle 0–9 (inventario, búsqueda, POS, clientes, recomendaciones, dashboard, alertas, agregar, reponer). Selección por número de lista o por ID; 0 crea cliente/producto nuevo en memoria con ID automático. Lectura segura (`leerEntero/leerDouble` con reintento). Factura con tabla de detalles + subtotal/dto/IVA/total + sugerencias post-compra.
+`ui/AppMenu.java`: bucle 0–10 (inventario, búsqueda, POS, clientes, recomendaciones, dashboard, alertas, agregar, reponer, reporte CSV). Selección por número de lista o por ID; 0 crea cliente/producto nuevo en memoria con ID automático. Lectura segura (`leerEntero/leerDouble` con reintento). Factura con tabla de detalles + subtotal/dto/IVA/total + sugerencias post-compra.
 
 Ejemplo de factura:
 ```

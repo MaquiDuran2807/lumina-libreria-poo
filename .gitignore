@@ -4,6 +4,9 @@ fuentes.txt
 *.class
 *.jar
 
+# Reportes generados por la app
+reporte-ventas.csv
+
 # Instaladores y binarios pesados (no subir a GitHub)
 *.exe
 *.msi

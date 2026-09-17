@@ -4,6 +4,8 @@ import com.libreriasmart.model.*;
 import com.libreriasmart.repository.Database;
 import com.libreriasmart.service.*;
 import com.libreriasmart.service.VentaService.ItemCarrito;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,9 +34,10 @@ public class AppMenu {
                 "📊  Reportes y dashboard",
                 "⚠  Alertas de stock bajo",
                 "➕  Agregar producto",
-                "📥  Reponer stock"
+                "📥  Reponer stock",
+                "📝  Generar reporte de ventas (CSV)"
             });
-            int op = leerEntero(0, 9);
+            int op = leerEntero(0, 10);
             switch (op) {
                 case 0 -> salir = true;
                 case 1 -> verInventario();
@@ -46,6 +49,7 @@ public class AppMenu {
                 case 7 -> alertas();
                 case 8 -> agregarProducto();
                 case 9 -> reponer();
+                case 10 -> generarReporteCSV();
             }
         }
         System.out.println(ConsoleUI.VERDE + ConsoleUI.NEGRITA
@@ -377,6 +381,38 @@ public class AppMenu {
         p.reponer(cant);
         ConsoleUI.exito("Nuevo stock: " + p.getStock());
         ConsoleUI.pausar(sc);
+    }
+
+    // ---------------- 10. Reporte CSV ----------------
+    private void generarReporteCSV() {
+        ConsoleUI.titulo("REPORTE DE VENTAS (CSV) 📝");
+        String archivo = "reporte-ventas.csv";
+        try (PrintWriter w = new PrintWriter(archivo, StandardCharsets.UTF_8)) {
+            w.println("IDVenta,Fecha,Cliente,Nivel,Unidades,Subtotal,Descuento,IVA,Total");
+            for (Venta v : db.getVentas()) {
+                w.printf("%s,%s,%s,%s,%d,%.0f,%.0f,%.0f,%.0f%n",
+                    v.getId(), v.getFechaCorta(), escaparCSV(v.getCliente().getNombre()),
+                    v.getCliente().getNivel(), v.getTotalUnidades(),
+                    v.getSubtotal(), v.getValorDescuento(), v.getIva(), v.getTotalFinal());
+            }
+            w.printf("TOTAL,,,,%d,%.0f,%.0f,%.0f,%.0f%n",
+                reportes.totalUnidadesVendidas(), db.getVentas().stream().mapToDouble(Venta::getSubtotal).sum(),
+                db.getVentas().stream().mapToDouble(Venta::getValorDescuento).sum(),
+                db.getVentas().stream().mapToDouble(Venta::getIva).sum(), reportes.ingresosTotales());
+        } catch (Exception e) {
+            ConsoleUI.error("No se pudo escribir el archivo: " + e.getMessage());
+            ConsoleUI.pausar(sc);
+            return;
+        }
+        ConsoleUI.exito("Reporte guardado en " + archivo + " (" + db.getVentas().size() + " ventas). Ábrelo con Excel.");
+        ConsoleUI.pausar(sc);
+    }
+
+    private String escaparCSV(String s) {
+        if (s.contains(",") || s.contains("\"")) {
+            return "\"" + s.replace("\"", "\"\"") + "\"";
+        }
+        return s;
     }
 
     // ---------------- Listas numeradas + IDs automáticos ----------------
