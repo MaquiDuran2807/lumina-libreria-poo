@@ -10,8 +10,8 @@ import argparse
 import sys
 from pathlib import Path
 
-# Canvas del SVG: 1200x1060
-SVG_W, SVG_H = 1200, 1060
+# Canvas del SVG: 1200x1320
+SVG_W, SVG_H = 1200, 1320
 
 
 def main() -> int:
@@ -105,8 +105,8 @@ def generar_con_pillow(png: Path, ancho: int) -> None:
                 T(x + 12, yy, e, font=F_SMALL)
                 yy += 18
 
-    T(600, 34, "Lumina Libreria - Preliminar (modelo, sin servicios/UI)", anchor="mm", font=F_TIT)
-    T(600, 56, "10 clases · triangulo=herencia · rombo blanco=agregacion · rombo negro=composicion", anchor="mm", font=F_SUB)
+    T(600, 34, "Lumina Libreria - Preliminar (modelo + interfaces)", anchor="mm", font=F_TIT)
+    T(600, 56, "10 clases + 2 interfaces - triangulo=herencia - -triang=realizacion - rombo b.=agreg. - rombo n.=comp.", anchor="mm", font=F_SUB)
 
     caja(40, 90, 270, 250, "Persona", "#EDE7F6",
          ["# id : String", "# nombre : String", "# email : String", "# telefono : String"],
@@ -134,23 +134,41 @@ def generar_con_pillow(png: Path, ancho: int) -> None:
     caja(820, 440, 200, 190, "Revista", "#FFF8E1",
          ["- edicion : String", "- periodicidad : String", "(hereda id, precio)"],
          ["(hereda vender, margen)"], ["Ej: N412 Mensual"])
-    caja(380, 680, 280, 270, "Venta", "#E8F5E9",
+    caja(380, 950, 280, 270, "Venta", "#E8F5E9",
          ["- id : String", "- fecha : DateTime", "- tasaDescuento : double"],
          ["+ agregarDetalle(p,c) : void", "+ getTotalFinal() : double", "+ getIva() : double"],
          ["Ej: V-1001 Sofia $142800"])
-    caja(700, 680, 280, 270, "DetalleVenta", "#E0F1FB",
+    caja(700, 950, 280, 270, "DetalleVenta", "#E0F1FB",
          ["- cantidad : int", "- precioUnitario : double"],
          ["+ getSubtotal() : double", "+ getGanancia() : double"],
          ["Ej: L-001 x2 -> $90000"])
 
-    R(1000, 680, 160, 270, fill="#FAFAFA", outline="#999999", width=1)
-    T(1012, 702, "Leyenda", font=F_HEAD)
-    T(1012, 726, "triangulo=herencia", font=F_SMALL)
-    T(1012, 744, "rombo blanco=agreg.", font=F_SMALL)
-    T(1012, 762, "rombo negro=comp.", font=F_SMALL)
-    T(1012, 782, "- privado + publico", font=F_SMALL)
-    T(1012, 800, "# protegido", font=F_SMALL)
-    T(1012, 820, "sin services/UI", font=F_SMALL)
+    # Fila intermedia: interfaces
+    caja(380, 700, 280, 200, "Tabulable", "#E8EAF6",
+         ["(contrato, sin codigo)"],
+         ["+ toRow() : String[]"],
+         ["la implementan: Persona,", "Producto, Venta, Detalle"], sub="«interface»")
+    caja(700, 700, 280, 200, "Inventariable", "#E8EAF6",
+         ["(contrato, sin codigo)"],
+         ["+ vender(c) : boolean", "+ reponer(c) : void", "+ necesitaReposicion()"],
+         ["la implementa: Producto"], sub="«interface»")
+
+    R(1000, 700, 160, 200, fill="#FFFDE7", outline="#999999", width=1)
+    T(1012, 722, "INTERFACES", font=F_HEAD)
+    T(1012, 744, "contrato: solo", font=F_SMALL)
+    T(1012, 760, "firma, sin codigo", font=F_SMALL)
+    T(1012, 780, "- -triang = realiza", font=F_SMALL)
+    T(1012, 800, "programa contra", font=F_SMALL)
+    T(1012, 818, "el contrato", font=F_SMALL)
+
+    R(1000, 950, 160, 270, fill="#FAFAFA", outline="#999999", width=1)
+    T(1012, 972, "Leyenda", font=F_HEAD)
+    T(1012, 996, "triangulo=herencia", font=F_SMALL)
+    T(1012, 1014, "rombo blanco=agreg.", font=F_SMALL)
+    T(1012, 1032, "rombo negro=comp.", font=F_SMALL)
+    T(1012, 1052, "- privado + publico", font=F_SMALL)
+    T(1012, 1070, "# protegido", font=F_SMALL)
+    T(1012, 1090, "- -triang=realiz.", font=F_SMALL)
 
     W = max(3, int(3 * esc))
     # 1. Persona->Cliente
@@ -167,8 +185,8 @@ def generar_con_pillow(png: Path, ancho: int) -> None:
     d.polygon([(668*esc, 180*esc), (680*esc, 168*esc), (692*esc, 180*esc), (680*esc, 192*esc)], fill="black")
     # tapa el subtitulo para que no se encimen (fondo blanco)
     # NOTE: se dibuja después, así que repintamos subtitulo limpio abajo
-    R(560, 44, 290, 22, fill="white", outline="white", width=1)
-    T(600, 56, "10 clases · triangulo=herencia · rombo blanco=agregacion · rombo negro=composicion", anchor="mm", font=F_SUB)
+    R(320, 44, 560, 22, fill="white", outline="white", width=1)
+    T(600, 56, "10 clases + 2 interfaces - triangulo=herencia - -triang=realizacion - rombo b.=agreg. - rombo n.=comp.", anchor="mm", font=F_SUB)
     R(655, 68, 110, 18, fill="white", outline="black", width=1)
     T(710, 77, "clasificado en", anchor="mm", font=F_SMALL)
     # 4. bus herencia
@@ -177,21 +195,50 @@ def generar_con_pillow(png: Path, ancho: int) -> None:
     d.line([(530*esc, 415*esc), (700*esc, 415*esc), (700*esc, 440*esc)], fill="black", width=W)
     d.line([(530*esc, 415*esc), (920*esc, 415*esc), (920*esc, 440*esc)], fill="black", width=W)
     # 5. Venta->Cliente canal x=340 (rombo blanco horizontal en Venta)
-    d.line([(368*esc, 815*esc), (340*esc, 815*esc), (340*esc, 525*esc), (310*esc, 525*esc)], fill="black", width=W)
-    d.polygon([(368*esc, 815*esc), (380*esc, 803*esc), (392*esc, 815*esc), (380*esc, 827*esc)],
+    d.line([(368*esc, 1085*esc), (340*esc, 1085*esc), (340*esc, 525*esc), (310*esc, 525*esc)], fill="black", width=W)
+    d.polygon([(368*esc, 1085*esc), (380*esc, 1073*esc), (392*esc, 1085*esc), (380*esc, 1097*esc)],
               fill="white", outline="black")
-    R(300, 588, 90, 20, fill="white", outline="black", width=1)
-    T(345, 598, "atiende a 1-1", anchor="mm", font=F_SMALL)
+    R(60, 688, 120, 20, fill="white", outline="black", width=1)
+    T(120, 702, "atiende a 1-1", anchor="mm", font=F_SMALL)
     # 6. Venta->Detalle (rombo negro)
-    d.line([(672*esc, 815*esc), (695*esc, 815*esc)], fill="black", width=W)
-    d.polygon([(648*esc, 815*esc), (660*esc, 803*esc), (672*esc, 815*esc), (660*esc, 827*esc)], fill="black")
-    T(645, 798, "contiene", anchor="mm", font=F_SMALL)
-    # 7. Detalle->Producto corredor y=655 (rombo blanco vertical en Detalle)
-    d.line([(750*esc, 692*esc), (750*esc, 655*esc), (360*esc, 655*esc), (360*esc, 250*esc), (380*esc, 250*esc)],
+    d.line([(672*esc, 1085*esc), (695*esc, 1085*esc)], fill="black", width=W)
+    d.polygon([(648*esc, 1085*esc), (660*esc, 1073*esc), (672*esc, 1085*esc), (660*esc, 1097*esc)], fill="black")
+    T(645, 1068, "contiene", anchor="mm", font=F_SMALL)
+    # 7. Detalle->Producto: sube por el callejon x=680 (entre Tabulable e Inventariable)
+    d.line([(750*esc, 962*esc), (750*esc, 925*esc), (680*esc, 925*esc), (680*esc, 655*esc),
+            (360*esc, 655*esc), (360*esc, 250*esc), (380*esc, 250*esc)],
            fill="black", width=W)
-    d.polygon([(750*esc, 668*esc), (762*esc, 680*esc), (750*esc, 692*esc), (738*esc, 680*esc)],
+    d.polygon([(750*esc, 938*esc), (762*esc, 950*esc), (750*esc, 962*esc), (738*esc, 950*esc)],
               fill="white", outline="black")
-    T(555, 644, "refiere a *", anchor="mm", font=F_SMALL)
+    T(485, 644, "refiere a *", anchor="mm", font=F_SMALL)
+
+    # 8. Realizaciones (contratos): punteadas hacia la interfaz
+    import math as _math
+
+    def DL(x1, y1, x2, y2, fill="#283593"):
+        dx, dy = x2 - x1, y2 - y1
+        dist = _math.hypot(dx, dy)
+        t, dash, gap = 0.0, 7.0, 5.0
+        while t < dist:
+            t2 = min(t + dash, dist)
+            d.line([(x1 + dx * t / dist) * esc, (y1 + dy * t / dist) * esc,
+                    (x1 + dx * t2 / dist) * esc, (y1 + dy * t2 / dist) * esc],
+                   fill=fill, width=max(1, int(2 * esc / 2)))
+            t += dash + gap
+
+    def TR(pts, fill="white"):
+        d.polygon([(x * esc, y * esc) for x, y in pts], fill=fill, outline="#283593")
+
+    # R1. Producto -> Tabulable (callejon x=590, entre Libro y UtilEscolar)
+    DL(590, 390, 590, 700)
+    TR([(590, 700), (582, 714), (598, 714)])
+    # R2. Producto -> Inventariable (borde derecho, baja por x=810)
+    DL(680, 320, 810, 320)
+    DL(810, 320, 810, 700)
+    TR([(810, 700), (802, 714), (818, 714)])
+    # R3. Persona -> Tabulable (diagonal por el callejon x=310-380)
+    DL(310, 250, 380, 750)
+    TR([(380, 750), (370, 735), (386, 733)])
 
     img.save(png)
     print(f"OK (Pillow): {png} ({ancho}x{alto})")

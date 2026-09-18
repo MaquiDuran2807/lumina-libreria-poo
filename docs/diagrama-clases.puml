@@ -3,9 +3,17 @@
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
-title Lumina Librería — Diagrama de Clases (POO + Listas como BD)
+title Lumina Libreria - Diagrama de Clases (POO + Listas como BD)
 
 package "model" {
+  interface Tabulable {
+    + toRow() : String[]
+  }
+  interface Inventariable {
+    + vender(cant) : boolean
+    + reponer(cant) : void
+    + necesitaReposicion() : boolean
+  }
   abstract class Persona {
     # id : String
     # nombre : String
@@ -102,6 +110,12 @@ package "repository" {
 }
 
 package "service" {
+  interface PoliticaDescuento {
+    + calcular(cliente, sub, unds) : double
+  }
+  class DescuentoEstandar {
+    + calcular(cliente, sub, unds) : double
+  }
   class ProductoService {
     + buscar(query) : List<Producto>
     + porCategoria(cat) : List
@@ -109,6 +123,8 @@ package "service" {
     + masRentables(top) : List
   }
   class VentaService {
+    - politica : PoliticaDescuento
+    + VentaService(politica) : void
     + calcularDescuento(c, sub, unds) : double
     + crearVenta(cliente, carrito) : Venta
   }
@@ -134,6 +150,7 @@ package "ui" {
   class ConsoleUI {
     + banner() : void
     + tabla(headers, filas) : void
+    + tablaDe(headers, tabulables) : void
     + tarjeta(titulo, lineas) : void
     + exito(msg) : void
     + error(msg) : void
@@ -156,6 +173,13 @@ package "ui" {
 }
 
 Persona <|-- Cliente
+Tabulable <|.. Persona
+Tabulable <|.. Producto
+Tabulable <|.. Venta
+Tabulable <|.. DetalleVenta
+Inventariable <|.. Producto
+PoliticaDescuento <|.. DescuentoEstandar
+VentaService ..> PoliticaDescuento : usa el contrato
 Producto <|-- Libro
 Producto <|-- UtilEscolar
 Producto <|-- Revista

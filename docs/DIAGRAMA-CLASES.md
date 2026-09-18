@@ -1,7 +1,10 @@
 # 📚 Lumina Librería — Diagrama de Clases
 
-> Pégalo en [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/) o en VS Code con la extensión PlantUML para visualizarlo.
-> El archivo fuente está en `docs/diagrama-clases.puml`.
+![Diagrama principal renderizado](diagrama-clases.png)
+
+> **Ojo, son dos formatos distintos, no se mezclan:**
+> - El archivo `docs/diagrama-clases.puml` (PlantUML) es el que se pega en [plantuml.com/plantuml](https://www.plantuml.com/plantuml/uml/) o en VS Code con la extensión PlantUML.
+> - El bloque `mermaid` de abajo (solo el código entre las triples comillas, sin el resto del .md) es el que se pega en [mermaid.live](https://mermaid.live), GitHub o Notion.
 
 ## Versión Mermaid (para GitHub / Notion)
 
@@ -12,7 +15,7 @@ classDiagram
     #id: String
     #nombre: String
     +getTipo() String
-    +toRow() String[]
+    +toRow() List~String~
   }
   class Cliente {
     -puntosFidelidad: int
@@ -38,6 +41,23 @@ classDiagram
     +vender(cant) bool
     +calcularPrecioFinal() double
     +getDetalleEspecifico() String
+  }
+  class Tabulable {
+    <<interface>>
+    +toRow() List~String~
+  }
+  class Inventariable {
+    <<interface>>
+    +vender(cant) bool
+    +reponer(cant) void
+    +necesitaReposicion() bool
+  }
+  class PoliticaDescuento {
+    <<interface>>
+    +calcular(cliente,sub,unds) double
+  }
+  class DescuentoEstandar {
+    +calcular(cliente,sub,unds) double
   }
   class Libro {
     -autor: String
@@ -65,7 +85,7 @@ classDiagram
     -id: String
     -fecha: DateTime
     +getTotalFinal() double
-    +agregarDetalle(prod, cant) void
+    +agregarDetalle(prod,cant) void
   }
   class DetalleVenta {
     -cantidad: int
@@ -82,10 +102,10 @@ classDiagram
     +stockBajo() List
   }
   class VentaService {
-    +crearVenta(cliente, carrito) Venta
+    +crearVenta(cliente,carrito) Venta
   }
   class RecomendacionService {
-    +recomendar(base, max) List
+    +recomendar(base,max) List
   }
   class ReporteService {
     +ingresosTotales() double
@@ -93,7 +113,7 @@ classDiagram
   }
   class ConsoleUI {
     +banner() void
-    +tabla(headers, filas) void
+    +tabla(headers,filas) void
   }
   class AppMenu {
     +iniciar() void
@@ -103,6 +123,12 @@ classDiagram
   Producto <|-- Libro
   Producto <|-- UtilEscolar
   Producto <|-- Revista
+  Tabulable <|.. Persona
+  Tabulable <|.. Producto
+  Tabulable <|.. Venta
+  Tabulable <|.. DetalleVenta
+  Inventariable <|.. Producto
+  PoliticaDescuento <|.. DescuentoEstandar
   Venta *-- DetalleVenta
   Venta o-- Cliente
   DetalleVenta o-- Producto
@@ -117,6 +143,7 @@ classDiagram
 |---|---|---|
 | `Persona <|-- Cliente` | Herencia | Cliente **es-una** Persona |
 | `Producto <|-- Libro/Util/Revista` | Herencia + polimorfismo | Cada tipo calcula su precio/detalle distinto |
+| `<|..` (triángulo punteado) | Realización | La clase cumple el contrato de la interfaz (ej. `Producto` realiza `Inventariable`) |
 | `Venta *-- DetalleVenta` | Composición | Sin venta no existen sus detalles |
 | `Venta o-- Cliente` | Agregación | La venta referencia un cliente que vive fuera |
 | `Database o-- Producto` | Agregación | La BD en listas **contiene** productos temporales |

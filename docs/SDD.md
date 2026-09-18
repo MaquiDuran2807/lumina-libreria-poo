@@ -75,11 +75,16 @@ Sin archivos/BD real, sin GUI, sin login multiusuario. Todo vive en listas mient
 
 ---
 
-## 4. Diseño POO (los 4 pilares)
+## 4. Diseño POO (pilares + interfaces)
 
 ### 4.1 Herencia
 - `Persona (abstract)` → `Cliente`
 - `Producto (abstract)` → `Libro` | `UtilEscolar` | `Revista`
+
+### 4.2 Interfaces (contratos sin código, `- -▷` realización)
+- `Tabulable.toRow()`: lo implementan `Persona`, `Producto`, `Venta`, `DetalleVenta`. `ConsoleUI.tablaDe()` pide la interfaz, así cualquier clase futura tabulable se dibuja sin tocar la UI.
+- `Inventariable` (vender/reponer/stock): lo implementa `Producto`; los servicios piden el contrato cuando solo les importa el stock.
+- `PoliticaDescuento` (patrón Strategy) + `DescuentoEstandar`: `VentaService` recibe la política por constructor (inyección), así la regla se cambia o se prueba sin tocar el servicio.
 
 ### 4.2 Polimorfismo
 - `Producto.calcularPrecioFinal()` y `getDetalleEspecifico()`: cada subclase responde distinto (libro → autor/editorial, útil → marca/tipo, revista → edición).
@@ -170,12 +175,13 @@ proyecto poo/
 ├── docs/
 │   ├── SDD.md                  ← este documento
 │   ├── DIAGRAMA-CLASES.md      ← Mermaid + guía de exposición
-│   └── diagrama-clases.puml    ← fuente PlantUML
+│   ├── diagrama-clases.puml    ← fuente PlantUML
+│   └── diagrama-clases.png     ← diagrama principal renderizado
 ├── src/main/java/com/libreriasmart/
 │   ├── Main.java
-│   ├── model/{Categoria,NivelCliente,Persona,Cliente,Producto,Libro,UtilEscolar,Revista,DetalleVenta,Venta}.java
+│   ├── model/{Categoria,NivelCliente,Persona,Cliente,Producto,Libro,UtilEscolar,Revista,DetalleVenta,Venta,Tabulable,Inventariable}.java
 │   ├── repository/Database.java
-│   ├── service/{ProductoService,VentaService,RecomendacionService,ReporteService}.java
+│   ├── service/{ProductoService,VentaService,PoliticaDescuento,DescuentoEstandar,RecomendacionService,ReporteService}.java
 │   └── ui/{ConsoleUI,AppMenu}.java
 ├── compilar.bat / run.bat      ← scripts Windows
 └── README.md

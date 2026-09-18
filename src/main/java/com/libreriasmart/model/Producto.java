@@ -5,7 +5,7 @@ package com.libreriasmart.model;
  * ENCAPSULAMIENTO: stock y precios protegidos, solo se mutan con reglas.
  * POLIMORFISMO: calcularPrecioFinal() y getDetalleEspecifico() cambian por subclase.
  */
-public abstract class Producto {
+public abstract class Producto implements Tabulable, Inventariable {
     protected String id;
     protected String nombre;
     protected Categoria categoria;
@@ -37,6 +37,7 @@ public abstract class Producto {
         if (precioVenta <= 0) throw new IllegalArgumentException("El precio debe ser > 0");
         this.precioVenta = precioVenta;
     }
+    @Override
     public int getStock() { return stock; }
     public int getStockMinimo() { return stockMinimo; }
 
@@ -46,17 +47,20 @@ public abstract class Producto {
         return ((precioVenta - precioCompra) / precioCompra) * 100.0;
     }
 
+    @Override
     public boolean necesitaReposicion() {
         return stock <= stockMinimo;
     }
 
     /** Descuenta stock con validación. Retorna false si no hay suficiente. */
+    @Override
     public boolean vender(int cantidad) {
         if (cantidad <= 0 || cantidad > stock) return false;
         stock -= cantidad;
         return true;
     }
 
+    @Override
     public void reponer(int cantidad) {
         if (cantidad <= 0) throw new IllegalArgumentException("Cantidad > 0");
         stock += cantidad;
@@ -69,6 +73,7 @@ public abstract class Producto {
     /** Texto corto con el atributo distintivo (autor, marca, edición...). */
     public abstract String getDetalleEspecifico();
 
+    @Override
     public String[] toRow() {
         return new String[]{
             id,

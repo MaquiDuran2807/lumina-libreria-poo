@@ -1,5 +1,7 @@
 package com.libreriasmart.ui;
 
+import com.libreriasmart.model.Tabulable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -118,6 +120,19 @@ public class ConsoleUI {
         }
         System.out.println(GRIS + pie + RESET);
         System.out.println(GRIS + "  ↳ " + filas.size() + " registro(s)" + RESET);
+    }
+
+    /**
+     * Versión POO: acepta cualquier lista de Tabulable
+     * (Producto, Cliente, Venta, DetalleVenta...) sin mapeos manuales.
+     * La UI depende de la INTERFAZ, no de las clases concretas.
+     * (Se llama tablaDe porque Java no permite sobrecargar solo por
+     *  genérico: List&lt;String[]&gt; y List&lt;Tabulable&gt; se borran igual.)
+     */
+    public static void tablaDe(String[] headers, List<? extends Tabulable> items) {
+        List<String[]> filas = new ArrayList<>();
+        for (Tabulable t : items) filas.add(t.toRow());
+        tabla(headers, filas);
     }
 
     public static void menu(String[] opciones) {

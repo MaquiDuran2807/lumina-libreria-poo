@@ -13,12 +13,19 @@ import java.util.List;
  */
 public class VentaService {
     private final Database db = Database.getInstancia();
+    private final PoliticaDescuento politica;
+
+    public VentaService() {
+        this(new DescuentoEstandar());
+    }
+
+    /** INYECCIÓN: la política se pasa como interfaz, se cambia sin tocar el servicio. */
+    public VentaService(PoliticaDescuento politica) {
+        this.politica = politica;
+    }
 
     public double calcularDescuento(Cliente c, double subtotal, int unidades) {
-        double d = c.getDescuentoNivel();
-        if (unidades >= 5) d += 0.05;
-        if (subtotal > 150000) d += 0.03;
-        return Math.min(d, 0.25);
+        return politica.calcular(c, subtotal, unidades);
     }
 
     public Venta crearVenta(Cliente cliente, List<ItemCarrito> carrito) {

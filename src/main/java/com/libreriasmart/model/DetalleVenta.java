@@ -1,7 +1,7 @@
 package com.libreriasmart.model;
 
 /** COMPOSICIÓN: línea de una venta (producto x cantidad). */
-public class DetalleVenta {
+public class DetalleVenta implements Tabulable {
     private final Producto producto;
     private final int cantidad;
     private final double precioUnitario;
@@ -25,6 +25,7 @@ public class DetalleVenta {
         return (precioUnitario - producto.getPrecioCompra()) * cantidad;
     }
 
+    @Override
     public String[] toRow() {
         return new String[]{
             producto.getId(),

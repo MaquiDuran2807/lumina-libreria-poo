@@ -59,9 +59,7 @@ public class AppMenu {
     // ---------------- 1. Inventario ----------------
     private void verInventario() {
         ConsoleUI.titulo("INVENTARIO COMPLETO");
-        List<String[]> filas = productos.listarTodos().stream()
-            .map(Producto::toRow).collect(Collectors.toList());
-        ConsoleUI.tabla(Producto.headers(), filas);
+        ConsoleUI.tablaDe(Producto.headers(), productos.listarTodos());
         ConsoleUI.pausar(sc);
     }
 
@@ -75,8 +73,7 @@ public class AppMenu {
             ConsoleUI.error("Sin coincidencias para '" + q + "'. Prueba con otra palabra.");
         } else {
             ConsoleUI.exito(res.size() + " coincidencia(s) para '" + q + "':");
-            ConsoleUI.tabla(Producto.headers(),
-                res.stream().map(Producto::toRow).collect(Collectors.toList()));
+            ConsoleUI.tablaDe(Producto.headers(), res);
             // Detalle del primero (muestra polimorfismo)
             Producto p = res.get(0);
             ConsoleUI.tarjeta("Detalle destacado",
@@ -184,8 +181,7 @@ public class AppMenu {
             + " (" + v.getCliente().getNivel() + ")");
         System.out.println("   Fecha   : " + v.getFechaCorta());
         System.out.println("  ─────────────────────────────────────────────" + ConsoleUI.RESET);
-        ConsoleUI.tabla(DetalleVenta.headers(),
-            v.getDetalles().stream().map(DetalleVenta::toRow).collect(Collectors.toList()));
+        ConsoleUI.tablaDe(DetalleVenta.headers(), v.getDetalles());
         System.out.printf("   Subtotal : %s%n", ConsoleUI.dinero(v.getSubtotal()));
         System.out.printf("   Descuento aplicado (%.0f%%): -%s%n",
             v.getTasaDescuento() * 100, ConsoleUI.dinero(v.getValorDescuento()));
@@ -200,8 +196,7 @@ public class AppMenu {
     // ---------------- 4. Clientes ----------------
     private void verClientes() {
         ConsoleUI.titulo("CLIENTES Y FIDELIZACIÓN 👥");
-        ConsoleUI.tabla(Cliente.headers(),
-            db.getClientes().stream().map(Cliente::toRow).collect(Collectors.toList()));
+        ConsoleUI.tablaDe(Cliente.headers(), db.getClientes());
         reportes.mejorCliente().ifPresent(m ->
             ConsoleUI.tarjeta("🏆 Mejor cliente",
                 m.getNombre() + " · " + m.getNivel() + " · " + m.getPuntosFidelidad() + " pts",
@@ -229,12 +224,10 @@ public class AppMenu {
         Producto base = opt.get();
         ConsoleUI.info("Si te gusta '" + base.getNombre() + "' (" + base.getDetalleEspecifico() + ")...");
         List<Producto> sug = reco.recomendar(base, 5);
-        ConsoleUI.tabla(Producto.headers(),
-            sug.stream().map(Producto::toRow).collect(Collectors.toList()));
+        ConsoleUI.tablaDe(Producto.headers(), sug);
 
         ConsoleUI.titulo("🔥 TOP VENTAS HISTÓRICAS");
-        ConsoleUI.tabla(Producto.headers(),
-            reco.topVentas(3).stream().map(Producto::toRow).collect(Collectors.toList()));
+        ConsoleUI.tablaDe(Producto.headers(), reco.topVentas(3));
         ConsoleUI.pausar(sc);
     }
 
@@ -259,10 +252,10 @@ public class AppMenu {
 
         System.out.println(ConsoleUI.MAGENTA + ConsoleUI.NEGRITA
             + "\n  Últimas ventas:" + ConsoleUI.RESET);
-        List<String[]> filas = db.getVentas().stream()
+        List<Venta> ultimas = db.getVentas().stream()
             .sorted(Comparator.comparing(Venta::getFecha).reversed())
-            .limit(5).map(Venta::toRow).collect(Collectors.toList());
-        ConsoleUI.tabla(Venta.headers(), filas);
+            .limit(5).collect(Collectors.toList());
+        ConsoleUI.tablaDe(Venta.headers(), ultimas);
         ConsoleUI.pausar(sc);
     }
 
@@ -274,8 +267,7 @@ public class AppMenu {
             ConsoleUI.exito("Todo el inventario está saludable. 🎉");
         } else {
             ConsoleUI.alerta(bajos.size() + " producto(s) necesitan reposición urgente:");
-            ConsoleUI.tabla(Producto.headers(),
-                bajos.stream().map(Producto::toRow).collect(Collectors.toList()));
+            ConsoleUI.tablaDe(Producto.headers(), bajos);
         }
         ConsoleUI.pausar(sc);
     }

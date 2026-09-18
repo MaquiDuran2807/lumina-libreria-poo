@@ -9,7 +9,7 @@ import java.util.List;
  * COMPOSICIÓN + AGREGACIÓN: Venta contiene DetalleVentas y referencia un Cliente.
  * Encapsula cálculo de totales, descuento e IVA.
  */
-public class Venta {
+public class Venta implements Tabulable {
     private static int consecutivo = 1000;
 
     private final String id;
@@ -86,6 +86,7 @@ public class Venta {
         return fecha.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
+    @Override
     public String[] toRow() {
         return new String[]{
             id, cliente.getNombre(), getFechaCorta(),

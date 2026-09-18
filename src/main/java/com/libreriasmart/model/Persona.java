@@ -4,7 +4,7 @@ package com.libreriasmart.model;
  * ABSTRACCIÓN + ENCAPSULAMIENTO: base común de personas del sistema.
  * Demuestra herencia: Cliente la extiende.
  */
-public abstract class Persona {
+public abstract class Persona implements Tabulable {
     protected String id;
     protected String nombre;
     protected String email;
