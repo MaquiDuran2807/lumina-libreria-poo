@@ -131,7 +131,7 @@ def main() -> int:
     caja(SXS[1], SY, SW, SH, "VentaService", "#C8E6C9",
          ["- politica : PoliticaDesc."],
          ["+ crearVenta() : Venta", "+ calcularDescuento()"])
-    caja(SXS[2], SY, SW, SH, "PoliticaDescuento", "#E8EAF6",
+    caja(SXS[2], SY, SW, SH, "IPoliticaDescuento", "#E8EAF6",
          ["«interface»", "(contrato, sin codigo)"],
          ["+ calcular() : double"])
     caja(SXS[3], SY, SW, SH, "DescuentoEstandar", "#C8E6C9", [],

@@ -1,7 +1,7 @@
 package com.libreriasmart.model;
 
 /** COMPOSICIÓN: línea de una venta (producto x cantidad). */
-public class DetalleVenta implements Tabulable {
+public class DetalleVenta implements ITabulable {
     private final Producto producto;
     private final int cantidad;
     private final double precioUnitario;

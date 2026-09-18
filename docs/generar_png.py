@@ -144,11 +144,11 @@ def generar_con_pillow(png: Path, ancho: int) -> None:
          ["Ej: L-001 x2 -> $90000"])
 
     # Fila intermedia: interfaces
-    caja(380, 700, 280, 200, "Tabulable", "#E8EAF6",
+    caja(380, 700, 280, 200, "ITabulable", "#E8EAF6",
          ["(contrato, sin codigo)"],
          ["+ toRow() : String[]"],
          ["la implementan: Persona,", "Producto, Venta, Detalle"], sub="«interface»")
-    caja(700, 700, 280, 200, "Inventariable", "#E8EAF6",
+    caja(700, 700, 280, 200, "IInventariable", "#E8EAF6",
          ["(contrato, sin codigo)"],
          ["+ vender(c) : boolean", "+ reponer(c) : void", "+ necesitaReposicion()"],
          ["la implementa: Producto"], sub="«interface»")

@@ -82,9 +82,9 @@ Sin archivos/BD real, sin GUI, sin login multiusuario. Todo vive en listas mient
 - `Producto (abstract)` → `Libro` | `UtilEscolar` | `Revista`
 
 ### 4.2 Interfaces (contratos sin código, `- -▷` realización)
-- `Tabulable.toRow()`: lo implementan `Persona`, `Producto`, `Venta`, `DetalleVenta`. `ConsoleUI.tablaDe()` pide la interfaz, así cualquier clase futura tabulable se dibuja sin tocar la UI.
-- `Inventariable` (vender/reponer/stock): lo implementa `Producto`; los servicios piden el contrato cuando solo les importa el stock.
-- `PoliticaDescuento` (patrón Strategy) + `DescuentoEstandar`: `VentaService` recibe la política por constructor (inyección), así la regla se cambia o se prueba sin tocar el servicio.
+- `ITabulable.toRow()`: lo implementan `Persona`, `Producto`, `Venta`, `DetalleVenta`. `ConsoleUI.tablaDe()` pide la interfaz, así cualquier clase futura tabulable se dibuja sin tocar la UI.
+- `IInventariable` (vender/reponer/stock): lo implementa `Producto`; los servicios piden el contrato cuando solo les importa el stock.
+- `IPoliticaDescuento` (patrón Strategy) + `DescuentoEstandar`: `VentaService` recibe la política por constructor (inyección), así la regla se cambia o se prueba sin tocar el servicio.
 
 ### 4.2 Polimorfismo
 - `Producto.calcularPrecioFinal()` y `getDetalleEspecifico()`: cada subclase responde distinto (libro → autor/editorial, útil → marca/tipo, revista → edición).
@@ -179,9 +179,9 @@ proyecto poo/
 │   └── diagrama-clases.png     ← diagrama principal renderizado
 ├── src/main/java/com/libreriasmart/
 │   ├── Main.java
-│   ├── model/{Categoria,NivelCliente,Persona,Cliente,Producto,Libro,UtilEscolar,Revista,DetalleVenta,Venta,Tabulable,Inventariable}.java
+│   ├── model/{Categoria,NivelCliente,Persona,Cliente,Producto,Libro,UtilEscolar,Revista,DetalleVenta,Venta,ITabulable,IInventariable}.java
 │   ├── repository/Database.java
-│   ├── service/{ProductoService,VentaService,PoliticaDescuento,DescuentoEstandar,RecomendacionService,ReporteService}.java
+│   ├── service/{ProductoService,VentaService,IPoliticaDescuento,DescuentoEstandar,RecomendacionService,ReporteService}.java
 │   └── ui/{ConsoleUI,AppMenu}.java
 ├── compilar.bat / run.bat      ← scripts Windows
 └── README.md

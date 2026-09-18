@@ -9,7 +9,7 @@ import java.util.List;
  * COMPOSICIÓN + AGREGACIÓN: Venta contiene DetalleVentas y referencia un Cliente.
  * Encapsula cálculo de totales, descuento e IVA.
  */
-public class Venta implements Tabulable {
+public class Venta implements ITabulable {
     private static int consecutivo = 1000;
 
     private final String id;

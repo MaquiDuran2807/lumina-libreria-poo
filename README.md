@@ -135,7 +135,7 @@ proyecto-poo/
 |---|---|---|
 | Herencia | `Persona→Cliente`, `Producto→Libro/UtilEscolar/Revista` | Reúso lo común, especializo lo distinto |
 | Abstracción | `Producto`/`Persona` abstractas | Programo contra el contrato, no contra cada caso |
-| **Interfaces** | `Tabulable`, `Inventariable`, `PoliticaDescuento` (+`DescuentoEstandar`) | Contrato sin código: la UI y los servicios piden la interfaz |
+| **Interfaces** | `ITabulable`, `IInventariable`, `IPoliticaDescuento` (+`DescuentoEstandar`) | Contrato sin código: la UI y los servicios piden la interfaz |
 | Polimorfismo | `calcularPrecioFinal()`, `getDetalleEspecifico()`, `toRow()`, `tablaDe()` | Mismo mensaje, cada tipo responde a su manera |
 | Encapsulamiento | `vender()`/`reponer()`, nivel, descuento capado | Los datos se defienden solos con reglas |
 | Composición | `Venta *-- DetalleVenta` | Sin venta no hay detalle |

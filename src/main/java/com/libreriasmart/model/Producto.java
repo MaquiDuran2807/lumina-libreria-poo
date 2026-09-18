@@ -5,7 +5,7 @@ package com.libreriasmart.model;
  * ENCAPSULAMIENTO: stock y precios protegidos, solo se mutan con reglas.
  * POLIMORFISMO: calcularPrecioFinal() y getDetalleEspecifico() cambian por subclase.
  */
-public abstract class Producto implements Tabulable, Inventariable {
+public abstract class Producto implements ITabulable, IInventariable {
     protected String id;
     protected String nombre;
     protected Categoria categoria;

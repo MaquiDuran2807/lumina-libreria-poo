@@ -13,14 +13,14 @@ import java.util.List;
  */
 public class VentaService {
     private final Database db = Database.getInstancia();
-    private final PoliticaDescuento politica;
+    private final IPoliticaDescuento politica;
 
     public VentaService() {
         this(new DescuentoEstandar());
     }
 
     /** INYECCIÓN: la política se pasa como interfaz, se cambia sin tocar el servicio. */
-    public VentaService(PoliticaDescuento politica) {
+    public VentaService(IPoliticaDescuento politica) {
         this.politica = politica;
     }
 

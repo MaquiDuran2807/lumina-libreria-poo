@@ -7,6 +7,6 @@ import com.libreriasmart.model.Cliente;
  * VentaService depende de este contrato, no de una clase concreta,
  * así la regla se cambia (o se prueba) sin tocar el servicio.
  */
-public interface PoliticaDescuento {
+public interface IPoliticaDescuento {
     double calcular(Cliente cliente, double subtotal, int unidades);
 }

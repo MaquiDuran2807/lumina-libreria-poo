@@ -31,17 +31,17 @@ classDiagram
     +calcularPrecioFinal() double
     +getDetalleEspecifico() String
   }
-  class Tabulable {
+  class ITabulable {
     <<interface>>
     +toRow() List~String~
   }
-  class Inventariable {
+  class IInventariable {
     <<interface>>
     +vender(cant) bool
     +reponer(cant) void
     +necesitaReposicion() bool
   }
-  class PoliticaDescuento {
+  class IPoliticaDescuento {
     <<interface>>
     +calcular(cliente,sub,unds) double
   }
@@ -112,12 +112,12 @@ classDiagram
   Producto <|-- Libro
   Producto <|-- UtilEscolar
   Producto <|-- Revista
-  Tabulable <|.. Persona
-  Tabulable <|.. Producto
-  Tabulable <|.. Venta
-  Tabulable <|.. DetalleVenta
-  Inventariable <|.. Producto
-  PoliticaDescuento <|.. DescuentoEstandar
+  ITabulable <|.. Persona
+  ITabulable <|.. Producto
+  ITabulable <|.. Venta
+  ITabulable <|.. DetalleVenta
+  IInventariable <|.. Producto
+  IPoliticaDescuento <|.. DescuentoEstandar
   Venta *-- DetalleVenta
   Venta o-- Cliente
   DetalleVenta o-- Producto

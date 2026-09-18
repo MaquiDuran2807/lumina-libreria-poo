@@ -6,10 +6,10 @@ skinparam linetype ortho
 title Lumina Libreria - Diagrama de Clases (POO + Listas como BD)
 
 package "model" {
-  interface Tabulable {
+  interface ITabulable {
     + toRow() : String[]
   }
-  interface Inventariable {
+  interface IInventariable {
     + vender(cant) : boolean
     + reponer(cant) : void
     + necesitaReposicion() : boolean
@@ -110,7 +110,7 @@ package "repository" {
 }
 
 package "service" {
-  interface PoliticaDescuento {
+  interface IPoliticaDescuento {
     + calcular(cliente, sub, unds) : double
   }
   class DescuentoEstandar {
@@ -123,7 +123,7 @@ package "service" {
     + masRentables(top) : List
   }
   class VentaService {
-    - politica : PoliticaDescuento
+    - politica : IPoliticaDescuento
     + VentaService(politica) : void
     + calcularDescuento(c, sub, unds) : double
     + crearVenta(cliente, carrito) : Venta
@@ -173,13 +173,13 @@ package "ui" {
 }
 
 Persona <|-- Cliente
-Tabulable <|.. Persona
-Tabulable <|.. Producto
-Tabulable <|.. Venta
-Tabulable <|.. DetalleVenta
-Inventariable <|.. Producto
-PoliticaDescuento <|.. DescuentoEstandar
-VentaService ..> PoliticaDescuento : usa el contrato
+ITabulable <|.. Persona
+ITabulable <|.. Producto
+ITabulable <|.. Venta
+ITabulable <|.. DetalleVenta
+IInventariable <|.. Producto
+IPoliticaDescuento <|.. DescuentoEstandar
+VentaService ..> IPoliticaDescuento : usa el contrato
 Producto <|-- Libro
 Producto <|-- UtilEscolar
 Producto <|-- Revista

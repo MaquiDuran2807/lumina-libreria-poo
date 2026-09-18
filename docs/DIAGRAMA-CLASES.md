@@ -47,17 +47,17 @@ classDiagram
     +calcularPrecioFinal() double
     +getDetalleEspecifico() String
   }
-  class Tabulable {
+  class ITabulable {
     <<interface>>
     +toRow() List~String~
   }
-  class Inventariable {
+  class IInventariable {
     <<interface>>
     +vender(cant) bool
     +reponer(cant) void
     +necesitaReposicion() bool
   }
-  class PoliticaDescuento {
+  class IPoliticaDescuento {
     <<interface>>
     +calcular(cliente,sub,unds) double
   }
@@ -128,12 +128,12 @@ classDiagram
   Producto <|-- Libro
   Producto <|-- UtilEscolar
   Producto <|-- Revista
-  Tabulable <|.. Persona
-  Tabulable <|.. Producto
-  Tabulable <|.. Venta
-  Tabulable <|.. DetalleVenta
-  Inventariable <|.. Producto
-  PoliticaDescuento <|.. DescuentoEstandar
+  ITabulable <|.. Persona
+  ITabulable <|.. Producto
+  ITabulable <|.. Venta
+  ITabulable <|.. DetalleVenta
+  IInventariable <|.. Producto
+  IPoliticaDescuento <|.. DescuentoEstandar
   Venta *-- DetalleVenta
   Venta o-- Cliente
   DetalleVenta o-- Producto
@@ -148,7 +148,7 @@ classDiagram
 |---|---|---|
 | `Persona <|-- Cliente` | Herencia | Cliente **es-una** Persona |
 | `Producto <|-- Libro/Util/Revista` | Herencia + polimorfismo | Cada tipo calcula su precio/detalle distinto |
-| `<|..` (triángulo punteado) | Realización | La clase cumple el contrato de la interfaz (ej. `Producto` realiza `Inventariable`) |
+| `<|..` (triángulo punteado) | Realización | La clase cumple el contrato de la interfaz (ej. `Producto` realiza `IInventariable`) |
 | `Venta *-- DetalleVenta` | Composición | Sin venta no existen sus detalles |
 | `Venta o-- Cliente` | Agregación | La venta referencia un cliente que vive fuera |
 | `Database o-- Producto` | Agregación | La BD en listas **contiene** productos temporales |
