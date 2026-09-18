@@ -8,6 +8,11 @@
 
 ## Versión Mermaid (para GitHub / Notion)
 
+![Diagrama completo generado con Python](diagrama-completo.png)
+
+> Si el bloque `mermaid` te da error donde lo pegues, usa esta imagen
+> (se genera con `python docs/generar_completo.py`, mismo contenido, sin cruces sobre cajas).
+
 ```mermaid
 classDiagram
   class Persona {

@@ -132,16 +132,18 @@ def main() -> int:
          ["- politica : PoliticaDesc."],
          ["+ crearVenta() : Venta", "+ calcularDescuento()"])
     caja(SXS[2], SY, SW, SH, "PoliticaDescuento", "#E8EAF6",
-         ["(contrato, sin codigo)"],
-         ["+ calcular() : double"], sub="«interface»")
+         ["«interface»", "(contrato, sin codigo)"],
+         ["+ calcular() : double"])
     caja(SXS[3], SY, SW, SH, "DescuentoEstandar", "#C8E6C9", [],
          ["+ calcular() : double"], ["realiza PoliticaDesc."])
     caja(SXS[4], SY, SW, SH, "RecomendacionService", "#C8EAF6", [],
          ["+ recomendar() : List", "+ topVentas() : List"])
     caja(SXS[5], SY, SW, SH, "ReporteService", "#C8E6C9", [],
          ["+ ingresosTotales()", "+ dashboard() : void"])
-    # bus AppMenu -> servicios (y340, callejón vacío entre bandas)
-    LN([(230, 300), (230, 340), (1260, 340)])
+    # bus AppMenu -> servicios (y340, callejón vacío entre bandas).
+    # OJO: el bus cubre x140-1260 para alcanzar a ProductoService (izq. del todo).
+    LN([(230, 300), (230, 340)])
+    LN([(140, 340), (1260, 340)])
     for cx in (140, 364, 588, 812, 1036, 1260):
         LN([(cx, 340), (cx, 380)])
     T(250, 330, "usa", anchor="mm", font=F_SMALL)
@@ -172,23 +174,25 @@ def main() -> int:
 
     # ---------- modelo pegado (recorte verificado del preliminar) ----------
     pre = Image.open(prelim).convert("RGB")
-    pw, ph = pre.size  # 2400x2640 (esc=2): 1 unidad = 2 px
-    crop = pre.crop((0, 90 * 2, 1200 * 2, 1290 * 2)).resize((1200, 1200), Image.LANCZOS)
-    img.paste(crop.resize((int(1200 * esc), int(1200 * esc)), Image.LANCZOS),
-              (int(150 * esc), int(880 * esc)))
+    # recorte en px (el preliminar es esc=2): se excluye título y pie.
+    # El recorte cubre local y90-1275 (1185 uds) y se pega 1:1 en (150,940):
+    # punto global = (150 + lx, 850 + ly). Los "almacena" usan esa fórmula.
+    crop = pre.crop((0, 90 * 2, 1200 * 2, 1275 * 2)).resize((1200, 1185), Image.LANCZOS)
+    img.paste(crop.resize((int(1200 * esc), int(1185 * esc)), Image.LANCZOS),
+              (int(150 * esc), int(940 * esc)))
     # marco del bloque modelo
-    R(150, 880, 1200, 1200, outline="#777777", width=1)
-    T(160, 872, "model (ver diagrama-preliminar.png)", font=F_SMALL, fill="#777777")
+    R(150, 940, 1200, 1185, outline="#777777", width=1)
+    T(160, 932, "model (ver diagrama-preliminar.png)", font=F_SMALL, fill="#777777")
 
     # ---------- Database almacena -> modelo (3 rombos, sin pisar cajas) ----------
     # Cliente: entra por borde izquierdo (190,1400 global)
     ROMBO(950, 760)
     LN([(950, 760), (120, 760), (120, 1400), (190, 1400)])
     T(880, 748, "almacena", anchor="mm", font=F_SMALL)
-    # Producto: baja a su borde superior (680,970 global)
-    LN([(680, 970), (680, 880), (1050, 880)])
-    ROMBO(1050, 880)
-    T(1105, 904, "almacena", anchor="mm", font=F_SMALL)
+    # Producto: sube a su borde superior global (680,940)
+    LN([(680, 940), (680, 900), (1050, 900)])
+    ROMBO(1050, 900)
+    T(1105, 924, "almacena", anchor="mm", font=F_SMALL)
     # Venta: callejon izquierdo x=120 hasta la fila libre y=1900, entra por borde izq.
     ROMBO(950, 850)
     LN([(950, 850), (120, 850), (120, 1900), (530, 1900)])
