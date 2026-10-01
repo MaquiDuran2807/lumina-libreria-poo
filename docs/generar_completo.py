@@ -106,7 +106,7 @@ def main() -> int:
 
     # ---------- título ----------
     T(750, 34, "Lumina Libreria - Diagrama Completo (21 clases + 3 interfaces)", anchor="mm", font=F_TIT)
-    T(750, 60, "ui / service / repository / model - punteada=dependencia(usa) - -triang=realizacion - mismo contenido del bloque mermaid",
+    T(750, 60, "ui / service / repository / model - punteada=dependencia(usa) - -triang=realizacion",
       anchor="mm", font=F_SUB)
 
     # ---------- banda UI ----------
@@ -207,8 +207,8 @@ def main() -> int:
     T(1162, 202, "bus = reparte a varias cajas", font=F_SMALL)
     T(1162, 220, "sin cruces sobre cajas", font=F_SMALL)
 
-    T(750, 2190, "python docs/generar_completo.py -> docs/diagrama-completo.png - mismo contenido que el bloque mermaid",
-      anchor="mm", font=F_SMALL, fill="#888888")
+    T(750, 2190, "Valery Morales  -  Camilo Romero  -  Miguel Quiroga   |   Elementos de Programacion Orientada a Objetos   |   Universidad del Tolima",
+      anchor="mm", font=F_SUB, fill="#333333")
 
     img.save(out)
     print(f"OK: {out} ({img.size[0]}x{img.size[1]})")

@@ -107,6 +107,8 @@ def generar_con_pillow(png: Path, ancho: int) -> None:
 
     T(600, 34, "Lumina Libreria - Preliminar (modelo + interfaces)", anchor="mm", font=F_TIT)
     T(600, 56, "10 clases + 2 interfaces - triangulo=herencia - -triang=realizacion - rombo b.=agreg. - rombo n.=comp.", anchor="mm", font=F_SUB)
+    T(600, 1295, "Valery Morales  -  Camilo Romero  -  Miguel Quiroga   |   Elementos de Programacion Orientada a Objetos   |   Universidad del Tolima",
+      anchor="mm", font=F_SUB, fill="#333333")
 
     caja(40, 90, 270, 250, "Persona", "#EDE7F6",
          ["# id : String", "# nombre : String", "# email : String", "# telefono : String"],

@@ -152,6 +152,14 @@ proyecto-poo/
 - `docs/DIAGRAMA-CLASES.md` — diagrama en Mermaid + cómo exponerlo.
 - `docs/diagrama-clases.puml` — pégalo en [plantuml.com](https://www.plantuml.com/plantuml/uml/) para ver el gráfico.
 
+## 👥 Autores
+
+- Valery Morales
+- Camilo Romero
+- Miguel Quiroga
+
+**Elementos de Programación Orientada a Objetos — Universidad del Tolima**
+
 ## 🛣 Roadmap
 
 - [ ] Persistencia real (JSON/SQLite) reescribiendo solo `Database`

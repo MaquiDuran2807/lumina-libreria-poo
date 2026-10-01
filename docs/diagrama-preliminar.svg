@@ -275,5 +275,5 @@
   <line x1="310" y1="250" x2="380" y2="750" stroke="#283593" stroke-width="2" stroke-dasharray="7,5"/>
   <polygon points="380,750 370,735 386,733" fill="#fff" stroke="#283593" stroke-width="2"/>
 
-  <text x="600" y="1290" text-anchor="middle" font-size="11" fill="#888">docs/diagrama-preliminar.svg → python docs/generar_png.py → diagrama-preliminar.png · preliminar = modelo + interfaces (sin services/UI)</text>
+  <text x="600" y="1290" text-anchor="middle" font-size="12" fill="#333">Valery Morales  -  Camilo Romero  -  Miguel Quiroga   |   Elementos de Programacion Orientada a Objetos   |   Universidad del Tolima</text>
 </svg>
