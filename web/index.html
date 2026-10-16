@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lumina Librería · Panel de gestión</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>" />
+</head>
+<body>
+  <div class="layout">
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">📚</div>
+        <div class="brand-text">
+          <strong>Lumina</strong>
+          <span>Librería Inteligente</span>
+        </div>
+      </div>
+
+      <nav class="nav" id="nav">
+        <button class="nav-item active" data-view="dashboard"><span class="ico">📊</span> Dashboard</button>
+        <button class="nav-item" data-view="inventario"><span class="ico">📦</span> Inventario</button>
+        <button class="nav-item" data-view="pos"><span class="ico">🛒</span> Vender (POS)</button>
+        <button class="nav-item" data-view="clientes"><span class="ico">👥</span> Clientes</button>
+        <button class="nav-item" data-view="recomendaciones"><span class="ico">✨</span> Recomendaciones</button>
+        <button class="nav-item" data-view="alertas"><span class="ico">⚠️</span> Alertas de stock</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <p>POO · Java + Web</p>
+        <small>Universidad del Tolima</small>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
+        <div class="topbar-title">
+          <h1 id="viewTitle">Dashboard</h1>
+          <p id="viewSubtitle">Resumen inteligente de la librería</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="pill-live"><span class="dot"></span> Datos en memoria</div>
+        </div>
+      </header>
+
+      <section class="content" id="content">
+        <!-- Las vistas se renderizan aquí con JS -->
+      </section>
+    </main>
+  </div>
+
+  <!-- ============ MODAL FACTURA ============ -->
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
